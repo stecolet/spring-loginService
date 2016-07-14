@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"  
+ xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	
+	 <mvc:annotation-driven/>  
+	<context:component-scan base-package="com.faac.colettaAssessment.rest" /> 
+
+	<jdbc:embedded-database id="dataSource" type="HSQL">
+	</jdbc:embedded-database>
+	
+	<!-- Hibernate 4 SessionFactory Bean definition -->
+	<bean id="hibernate4AnnotatedSessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!--  <property name="packagesToScan" value="com.faac.colettaAssessment.model" /> -->
+		<property name="annotatedClasses">
+			<list>
+				<value>com.faac.colettaAssessment.model.User</value>
+				<value>com.faac.colettaAssessment.model.LoggedUser</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+ 	  
+	
+	<bean id="userDAO" class="com.faac.colettaAssessment.dao.UserDAOImpl">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+	
+	<bean id="loggedUserDAO" class="com.faac.colettaAssessment.dao.LoggedUserDAOImpl">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+	
+	<bean id="loginService" class="com.faac.colettaAssessment.service.impl.LoginServiceImpl">
+		<property name="loggedUserDAO" ref="loggedUserDAO" />
+		<property name="userDAO" ref="userDAO" />
+	</bean>
+	
+	<bean id="loginRestController" class="com.faac.colettaAssessment.rest.LoginRestController">
+		<property name="loginService" ref="loginService" />
+	</bean>
+	
+	
+
+</beans>

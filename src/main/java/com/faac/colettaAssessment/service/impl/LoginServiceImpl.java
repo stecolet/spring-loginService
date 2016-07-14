@@ -98,6 +98,7 @@ public class LoginServiceImpl implements LoginService {
 			u=new User();
 			u.setUsername(lu.getLoggedUser().getUsername());
 			u.setPassword(lu.getLoggedUser().getPassword());
+			u.setId(lu.getLoggedUser().getId());
 			toBeReturned.add(u);
 		}
 		

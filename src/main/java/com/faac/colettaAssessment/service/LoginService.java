@@ -12,7 +12,7 @@ public interface LoginService {
 	 * 
 	 * @param username
 	 * @param password
-	 * @return an Integer > 0 when login succesfully, -1 when the user us already logged, -2 when the user isn't registered in the system
+	 * @return an Integer > 0 when login succesfully, 0 when the password is wrong, -1 when the user us already logged, -2 when the user isn't registered in the system
 	 */
 	public int login(String username,String password);
 	

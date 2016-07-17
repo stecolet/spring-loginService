@@ -15,7 +15,7 @@ import com.faac.colettaAssessment.service.LoginService;
 public class LoginRestController {
 	
 	LoginService loginService;
-
+	
 	public void setLoginService(LoginService loginService) {
 		this.loginService = loginService;
 	}

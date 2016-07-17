@@ -4,17 +4,38 @@
   
 <web-app>  
   <display-name>Archetype Created Web Application</display-name>  
-  <servlet>  
- <servlet-name>springrest</servlet-name>  
- <servlet-class>  
-  org.springframework.web.servlet.DispatcherServlet  
- </servlet-class>  
- <load-on-startup>1</load-on-startup>  
+  
+  
+ <servlet>  
+	 <servlet-name>springWebService</servlet-name>  
+	 <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+	 <init-param>
+		  <param-name>contextConfigLocation</param-name>
+		  <param-value>/WEB-INF/springrest-servlet.xml</param-value>
+	  </init-param>
 </servlet>  
+
   
 <servlet-mapping>  
- <servlet-name>springrest</servlet-name>  
- <url-pattern>/</url-pattern>  
+	 <servlet-name>springWebService</servlet-name>  
+	 <url-pattern>/loginWebService/*</url-pattern>  
+</servlet-mapping>  
+
+
+<servlet>  
+	 <servlet-name>springRest</servlet-name>  
+	 <servlet-class>  
+	  org.springframework.web.servlet.DispatcherServlet  
+	 </servlet-class>  
+	  <init-param>
+		  <param-name>contextConfigLocation</param-name>
+		  <param-value>/WEB-INF/springrest-servlet.xml</param-value>
+	  </init-param>
+</servlet>  
+
+<servlet-mapping>  
+ <servlet-name>springRest</servlet-name>  
+ <url-pattern>/loginRest/*</url-pattern>  
 </servlet-mapping>  
 
 <filter>

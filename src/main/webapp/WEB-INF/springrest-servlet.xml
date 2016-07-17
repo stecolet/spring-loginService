@@ -3,7 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:context="http://www.springframework.org/schema/context"  
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:p="http://www.springframework.org/schema/p" 
  xmlns:mvc="http://www.springframework.org/schema/mvc" 
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
@@ -57,6 +58,32 @@
 		<property name="loginService" ref="loginService" />
 	</bean>
 	
+	<bean id="LoginRestWsEndpoint" class="com.faac.colettaAssessment.ws.LoginWsEndpoint">
+		<property name="loginService" ref="loginService" />
+	</bean>
+	
+	 <bean id="loginWebService" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition"
+          p:portTypeName="LoginWebService"
+          p:locationUri="/loginWebService/"
+          p:requestSuffix="Request"
+          p:responseSuffix="Response">
+        <property name="schema">
+            <bean class="org.springframework.xml.xsd.SimpleXsdSchema"
+                  p:xsd="classpath:/loginWebService.xsd" />
+        </property>        
+    </bean>
+
+    <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping">
+        <description>An endpoint mapping strategy that looks for @Endpoint and @PayloadRoot annotations.</description>
+    </bean>
+
+    <bean class="org.springframework.ws.server.endpoint.adapter.MarshallingMethodEndpointAdapter">
+        <description>Enables the MessageDispatchServlet to invoke methods requiring OXM marshalling.</description>
+        <constructor-arg ref="marshaller"/>
+    </bean>
+
+    <bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller"
+          p:contextPath="org.example.loginwebservice" />
 	
 
 </beans>

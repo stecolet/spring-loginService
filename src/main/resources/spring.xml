@@ -57,6 +57,9 @@
 		<property name="loginService" ref="loginService" />
 	</bean>
 	
+	<bean id="LoginRestWsEndpoint" class="com.faac.colettaAssessment.ws.LoginWsEndpoint">
+		<property name="loginService" ref="loginService" />
+	</bean>
 	
 
 </beans>
